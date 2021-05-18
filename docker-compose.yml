@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+    truehome_db:
+        image: postgres:13.3-alpine
+        container_name: truehome_db
+        ports:
+            - 5432:5432
+        volumes: 
+            - truehomeDb:/var/lib/postgresql/data
+        networks: 
+            - truehomeNet
+        environment: 
+            - POSTGRES_PASSWORD=secret
+            - POSTGRES_USER=truehome
+            - POSTGRES_DB=seller
+    truehome_api:
+        build: ./api
+        container_name: truehome_api
+        ports:
+            - 8000:8000
+        volumes: 
+            - ./api:/code
+            - truehomeApiStatic:/code/static
+        networks: 
+            - truehomeNet
+        env_file: 
+            - ./api/.env
+networks:
+    truehomeNet:
+        driver: "bridge"
+volumes:
+    truehomeDb:
+    truehomeApiStatic:
