@@ -54,6 +54,13 @@ class Activity(models.Model):
     def status(self):
         return 'deactivated' if self.deleted_at != None else 'active'
     
+    @property
+    def type_human(self):
+        for choice in self.ACTIVITY_CHOICES:
+            if (choice[0] == self.type):
+                return choice[1]
+        return None
+    
     def save(self, *args, **kwargs):
         self.finished_at = self.schedule_at + datetime.timedelta(minutes=self.ACTIVITY_TIME[self.type])
         super().save(*args, **kwargs)

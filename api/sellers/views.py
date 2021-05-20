@@ -2,14 +2,24 @@ from django.http import Http404
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import Activity
-from .serializers import ActivitySerializer, ActivityModelSerializer, ActivityDeleteSerializer
+from .serializers import (
+    ActivitySerializer, 
+    ActivityModelSerializer, 
+    ActivityDeleteSerializer,
+    CustomTokenObtainPairSerializer
+)
 
 
 # Create your views here.
-# TODO filtrar por tipo y fecha
+class CustomObtainTokenPairView(TokenObtainPairView):
+    permission_classes = (AllowAny,)
+    serializer_class = CustomTokenObtainPairSerializer
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def activityList(request):
@@ -24,7 +34,7 @@ def activityList(request):
         filters['schedule_at__gte'] = start
     if end != None:
         filters['schedule_at__lte'] = end
-    activities = Activity.objects.filter(**filters).all()
+    activities = Activity.objects.filter(**filters).order_by('-id')
     serializer = ActivitySerializer(activities, many=True)
     return Response(serializer.data)
 
@@ -37,7 +47,8 @@ def activityCreate(request):
     data['seller'] = user.id
     serializer = ActivityModelSerializer(data=data, context={'user': user})
     serializer.is_valid(raise_exception=True)
-    serializer.save()
+    activity = serializer.save()
+    serializer = ActivitySerializer(activity)
     return Response(serializer.data)
 
 
@@ -51,7 +62,7 @@ def activityDetail(request, pk):
         return Response(None, status=status.HTTP_404_NOT_FOUND)
 
     if request.method != 'GET' and activity.status == 'deactivated':
-        return Response({'message': 'The current activity is deactivated'}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({'detail': 'The current activity is deactivated'}, status=status.HTTP_401_UNAUTHORIZED)
 
     if request.method == 'PUT':
         data = request.data

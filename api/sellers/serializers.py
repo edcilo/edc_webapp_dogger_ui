@@ -1,18 +1,26 @@
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import Activity, Client
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        token['username'] = user.username
+        token['firstname'] = user.first_name
+        token['lastname'] = user.last_name
+        token['email'] = user.email
+        token['phone'] = user.seller.phone
+
+        return token
 
 
 class ClientField(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ['id', 'name', 'lastname']
-
-
-class ActivityChoiceField(serializers.ChoiceField):
-    def to_representation(self, obj):
-        if obj == '' and self.allow_blank:
-            return obj
-        return self._choices[obj]
 
 
 class ActivityModelSerializer(serializers.ModelSerializer):
@@ -45,11 +53,10 @@ class ActivityModelSerializer(serializers.ModelSerializer):
 
 class ActivitySerializer(serializers.ModelSerializer):
     client = ClientField()
-    type = ActivityChoiceField(choices=Activity.ACTIVITY_CHOICES)
 
     class Meta:
         model = Activity
-        fields = ['id', 'created_at', 'schedule_at', 'status', 'type', 'client']
+        fields = ['id', 'created_at', 'schedule_at', 'status', 'type', 'type_human', 'client', 'note',]
 
 
 class ActivityDeleteSerializer(serializers.Serializer):
