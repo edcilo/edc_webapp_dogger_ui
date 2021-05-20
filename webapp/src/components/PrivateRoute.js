@@ -5,25 +5,25 @@ import {
   } from "react-router-dom";
 
 
-function PrivateRoute({ children, user, ...rest}) {
+function PrivateRoute({ children, component, user, ...rest}) {
     let auth = user;
-    return (
-      <Route
-        {...rest}
-        render={({ location }) =>
-          auth.token ? (
-            children
-          ) : (
-            <Redirect
-              to={{
-                pathname: "/login",
-                state: { from: location }
-              }}
-            />
-          )
-        }
-      />
-    );
+
+    if (auth.token) {
+      return component ? (
+        <Route {...rest} component={component}/>
+      ) : (
+        <Route {...rest} render={() => children} />
+      )
+    } else {
+      return (
+        <Route
+          {...rest}
+          render={
+            ({ location }) => (<Redirect to={{ pathname: "/login", state: { from: location }}}/>)
+          }
+        />
+      );
+    }
 }
 
 
