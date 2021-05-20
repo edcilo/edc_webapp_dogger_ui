@@ -1,16 +1,13 @@
 import './App.css';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { connect } from "react-redux";
-import Login from './pages/Login';
-import Activities from './pages/Activities';
-import Header from './components/Header';
 import { userLogout } from './redux/actions';
+import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import GuestRoute from './components/GuestRoute';
+import Login from './pages/Login';
+import Activities from './pages/Activities';
+import Clients from './pages/Clients';
 
   
 function App({ user, userLogout }) {
@@ -24,8 +21,9 @@ function App({ user, userLogout }) {
             <GuestRoute path="/login">
               <Login />
             </GuestRoute>
+            <PrivateRoute path="/client/:id" component={Activities} />
             <PrivateRoute path="/">
-              <Activities />
+              <Clients />
             </PrivateRoute>
           </Switch>
         </div>

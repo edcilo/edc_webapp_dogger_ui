@@ -21,7 +21,7 @@ class ActivityForm extends React.Component {
 
         this.state = {
             type: activity ? activity.type : '',
-            client: activity ? activity.client.id : '',
+            client: activity ? activity.client.id : this.props.clientId,
             schedule_at: activity ? activity.schedule_at : '',
             note: activity ? activity.note : '',
             error: null,
@@ -116,22 +116,6 @@ class ActivityForm extends React.Component {
                     />
                     <p className="text-red text-xs italic">
                         {this.state.errors.type}
-                    </p>
-                </div>
-    
-                <div className="mb-8">
-                    <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="client">
-                        Client
-                    </label>
-                    <input 
-                        className="appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-1" 
-                        id="client" 
-                        type="text"
-                        value={this.state.client}
-                        onChange={e => this.updateClient(e.target.value)}
-                    />
-                    <p className="text-red text-xs italic">
-                        {this.state.errors.client}
                     </p>
                 </div>
     

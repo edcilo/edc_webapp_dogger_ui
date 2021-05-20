@@ -17,6 +17,12 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
 
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['id', 'name', 'lastname', 'phone', 'email']
+
+
 class ClientField(serializers.ModelSerializer):
     class Meta:
         model = Client

@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { activitiesSet, userLogout } from './../redux/actions';
 import Activity from './../data/Activity';
+import Client from './../data/Client';
 import ActivityType from './../components/ActivityTypes';
 import Modal from './../components/Modal';
 import ActivityForm from "./../components/ActivityForm";
@@ -12,12 +14,14 @@ class Activities extends React.Component {
   constructor(props) {
     super(props)
     this.activity = new Activity(this.props.user.token)
+    this.client = new Client(this.props.user.token)
 
     this.state = {
+      client_id: props.match.params.id,
       activity: null,
       type: null,
-      start: '',
-      end: '',
+      start: null,
+      end: null,
       new_activity_modal: false,
       update_activity_modal: false,
       delete_activity_modal: false,
@@ -28,11 +32,14 @@ class Activities extends React.Component {
 
   getActivities = async () => {
     const type = this.state.type;
-    const start = null;
-    const end = null;
+    const start = this.state.start;
+    const end = this.state.end;
     
+    this.props.activitiesSet({ activities: [] })
     try {
-      const response = await this.activity.getAll({type, start, end})
+      const response = await this.client.getActivities(
+        this.state.client_id, {type, start, end}
+      )
       this.props.activitiesSet({ activities: response.data })
     } catch (error) {
       const status = error.response.status;
@@ -44,10 +51,15 @@ class Activities extends React.Component {
   }
 
   updateType = newValue => {
-    this.setState(
-      { type: newValue || null }, 
-      this.getActivities
-    )
+    this.setState({ type: newValue || null })
+  }
+
+  updateStart = newValue => {
+    this.setState({ start: newValue || null })
+  }
+
+  updateEnd = newValue => {
+    this.setState({ end: newValue || null })
   }
 
   newActvityModalHandler = () => {
@@ -77,6 +89,14 @@ class Activities extends React.Component {
   render() {
     return (
       <div className="bg-gray-100 p-0 sm:p-12">
+        <div className="mb-4">
+          <Link 
+            className="inline-flex items-center w-full text-sm font-semibold text-blue transition-colors duration-150 cursor-pointer hover:text-blue-500" 
+            to="/">
+            &lt; Volver
+          </Link>
+        </div>
+
         <div className="bg-white pb-4 px-4 rounded-md w-full">
           <div className="flex justify-between w-full pt-6 mb-8">
             <h1 className="text-2xl text-center font-bold">Activities</h1>
@@ -92,6 +112,24 @@ class Activities extends React.Component {
             <div className="w-lg">
               <ActivityType onChange={this.updateType} />
             </div>
+            <input 
+              className="appearance-none border rounded py-2 px-3 text-grey-darker mb-1"  
+              type="text"
+              placeholder="Start"
+              onChange={e => this.updateStart(e.target.value)}
+            />
+            <input 
+              className="appearance-none border rounded py-2 px-3 text-grey-darker mb-1"  
+              type="text"
+              placeholder="End"
+              onChange={e => this.updateEnd(e.target.value)}
+            />
+            <button
+              className="px-3 py-0 text-sm text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue hover:bg-blue-dark hover:shadow-md focus:outline-none"
+              onClick={this.getActivities}
+            >
+              Filtrar
+            </button>
           </div>
 
           <div className="overflow-x-auto mt-6">
@@ -141,19 +179,17 @@ class Activities extends React.Component {
             </table>
           </div>
 
-          {/* TODO: agregar paginacion*/}
-
           {
             this.state.new_activity_modal ? (
               <Modal title="New Activity" closeHandler={this.newActvityModalHandler}>
-                <ActivityForm action="create" successHandler={this.newActvityModalHandler}/>
+                <ActivityForm action="create" clientId={this.state.client_id} successHandler={this.newActvityModalHandler}/>
               </Modal>
             ) : null
           }
           {
             this.state.update_activity_modal ? (
               <Modal title="Update Activity" closeHandler={() => this.updateActvityModalHandler()}>
-                <ActivityForm action="update" activity={this.state.activity} successHandler={() => this.updateActvityModalHandler()}/>
+                <ActivityForm action="update" clientId={this.state.client_id} activity={this.state.activity} successHandler={() => this.updateActvityModalHandler()}/>
               </Modal>
             ) : null
           }

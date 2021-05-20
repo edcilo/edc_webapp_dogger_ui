@@ -3,6 +3,7 @@ import {
   ACTIVITY_CREATE, 
   ACTIVITY_UPDATE, 
   ACTIVITY_DELETE,
+  CLIENTS_SET,
   USER_LOGIN, 
   USER_LOGOUT
 } from "./actionTypes";
@@ -20,6 +21,12 @@ export const userLogin = ({access, refresh, data}) => ({
 export const userLogout = () => ({
   type: USER_LOGOUT,
   payloud: {}
+})
+
+
+export const clientsSet = ({ clients }) => ({
+  type: CLIENTS_SET,
+  payload: { clients }
 })
 
 

@@ -5,8 +5,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .models import Activity
+from .models import Activity, Client
 from .serializers import (
+    ClientSerializer,
     ActivitySerializer, 
     ActivityModelSerializer, 
     ActivityDeleteSerializer,
@@ -18,6 +19,34 @@ from .serializers import (
 class CustomObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = CustomTokenObtainPairSerializer
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def clientList(request):
+    user = request.user
+    clients = Client.objects.filter(seller=user.id).all()
+    serializer = ClientSerializer(clients, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def clientActivities(request, pk):
+    user = request.user
+    filters = {'seller': user.id, 'client': pk}
+    type = request.GET.get('type', None)
+    start = request.GET.get('start', None)
+    end = request.GET.get('end', None)
+    if type != None:
+        filters['type'] = type
+    if start != None:
+        filters['schedule_at__gte'] = start
+    if end != None:
+        filters['schedule_at__lte'] = end
+    activities = Activity.objects.filter(**filters).order_by('-id')
+    serializer = ActivitySerializer(activities, many=True)
+    return Response(serializer.data)
 
 
 @api_view(['GET'])

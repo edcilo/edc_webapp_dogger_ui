@@ -1,6 +1,8 @@
 export const USER_LOGIN = "USER_LOGIN";
 export const USER_LOGOUT = "USER_LOGOUT"
 
+export const CLIENTS_SET = "CLIENTS_SET"
+
 export const ACTIVITIES_SET = "ACTIVITIES_SET";
 export const ACTIVITY_CREATE = "ACTIVITY_CREATE";
 export const ACTIVITY_UPDATE = "ACTIVITY_UPDATE";
