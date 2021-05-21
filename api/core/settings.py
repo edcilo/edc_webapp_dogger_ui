@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -145,4 +146,17 @@ REST_FRAMEWORK = {
 }
 
 
+TIME_ZONE = 'America/Mexico_City'
+
+
 CORS_ALLOW_ALL_ORIGINS = True
+
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'SIGNING_KEY': 'K31XwqHRgtgZ6GEfAZusgdgNA93b4a7asVdKg314rlnmdItemg6r9kfdeme0y3LCLs7Rg6sfHOZnaiAgbDwGIQDv4QqDZjkLa1SzgKNY7BxFhtJvR456trzK3Nftp3tI9kbpe1QUzPaZdIxbmXMWilvEm3J3G4dGdu90FInKp2B10zHtwVMDlefTM6EYi4zZSN7hjeQXfx5RP3pF1lLo4R8kcKrjLuXcWm9zY9RI8yHOEM2FiEeaeqZt5dHGO9HqFZ6D',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+}
