@@ -24,16 +24,30 @@ services:
             - truehomeNet
         env_file: 
             - ./api/.env
-    truehome_nginx:
-        container_name: truehome_nginx
+    truehome_api_nginx:
+        container_name: truehome_api_nginx
         image: nginx:alpine
         depends_on:
             - truehome_api
         ports:
             - 8000:80
         volumes:
-            - ./docker/nginx/sites:/etc/nginx/conf.d
+            - ./docker/api_nginx/sites:/etc/nginx/conf.d
             - ./api/static:/code/static
+        networks: 
+            - truehomeNet
+        environment:
+            - VIRTUAL_HOST=truehomeapi.edcilo.com
+            - LETSENCRYPT_HOST=truehomeapi.edcilo.com
+            - LETSENCRYPT_EMAIL=me@edcilo.com
+    truehome_nginx:
+        container_name: truehome_nginx
+        image: nginx:alpine
+        ports:
+            - 8001:80
+        volumes:
+            - ./docker/webapp_nginx/sites:/etc/nginx/conf.d
+            - ./webapp/build:/var/www/app
         networks: 
             - truehomeNet
         environment:
