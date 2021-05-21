@@ -17,15 +17,29 @@ services:
     truehome_api:
         build: ./api
         container_name: truehome_api
-        ports:
-            - 8000:8000
         volumes: 
             - ./api:/code
-            - truehomeApiStatic:/code/static
+            - ./api/static:/code/static
         networks: 
             - truehomeNet
         env_file: 
             - ./api/.env
+    truehome_nginx:
+        container_name: truehome_nginx
+        image: nginx:alpine
+        depends_on:
+            - truehome_api
+        ports:
+            - 8000:80
+        volumes:
+            - ./docker/nginx/sites:/etc/nginx/conf.d
+            - ./api/static:/code/static
+        networks: 
+            - truehomeNet
+        environment:
+            - VIRTUAL_HOST=truehome.edcilo.com
+            - LETSENCRYPT_HOST=truehome.edcilo.com
+            - LETSENCRYPT_EMAIL=me@edcilo.com
 networks:
     truehomeNet:
         driver: "bridge"
