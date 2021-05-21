@@ -56,7 +56,7 @@ class Clients extends React.Component {
                                             </Link>
                                         </td>
                                         <td className="px-4 py-4">{client.phone}</td>
-                                        <td className="px-4 py-4">{client.eamil}</td>
+                                        <td className="px-4 py-4">{client.email}</td>
                                     </tr>
                                 )
                             })
