@@ -6,8 +6,8 @@ import Header from './components/Header';
 import PrivateRoute from './components/PrivateRoute';
 import GuestRoute from './components/GuestRoute';
 import Login from './pages/Login';
-import Activities from './pages/Activities';
-import Clients from './pages/Clients';
+import Reservations from './pages/Reservations';
+import Walkers from './pages/Walkers';
 
   
 function App({ user, userLogout }) {
@@ -21,9 +21,9 @@ function App({ user, userLogout }) {
             <GuestRoute path="/login">
               <Login />
             </GuestRoute>
-            <PrivateRoute path="/client/:id" component={Activities} />
+            <PrivateRoute path="/walker/:id" component={Reservations} />
             <PrivateRoute path="/">
-              <Clients />
+              <Walkers />
             </PrivateRoute>
           </Switch>
         </div>

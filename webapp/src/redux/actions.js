@@ -1,9 +1,9 @@
 import { 
-  ACTIVITIES_SET, 
-  ACTIVITY_CREATE, 
-  ACTIVITY_UPDATE, 
-  ACTIVITY_DELETE,
-  CLIENTS_SET,
+  RESERVATIONS_SET, 
+  RESERVATION_CREATE, 
+  RESERVATION_UPDATE, 
+  RESERVATION_DELETE,
+  WALKERS_SET,
   USER_LOGIN, 
   USER_LOGOUT
 } from "./actionTypes";
@@ -24,28 +24,28 @@ export const userLogout = () => ({
 })
 
 
-export const clientsSet = ({ clients }) => ({
-  type: CLIENTS_SET,
-  payload: { clients }
+export const walkersSet = ({ walkers }) => ({
+  type: WALKERS_SET,
+  payload: { walkers }
 })
 
 
-export const activitiesSet = ({ activities }) => ({
-  type: ACTIVITIES_SET,
-  payload: { activities }
+export const reservationsSet = ({ reservations }) => ({
+  type: RESERVATIONS_SET,
+  payload: { reservations }
 })
 
-export const activityAdd = ({ activity }) => ({
-  type: ACTIVITY_CREATE,
-  payload: { activity }
+export const reservationAdd = ({ reservation }) => ({
+  type: RESERVATION_CREATE,
+  payload: { reservation }
 })
 
-export const activityUpdate = ({ activity }) => ({
-  type: ACTIVITY_UPDATE,
-  payload: { activity }
+export const reservationUpdate = ({ reservation }) => ({
+  type: RESERVATION_UPDATE,
+  payload: { reservation }
 })
 
-export const activityDelete = ({ activity}) => ({
-  type: ACTIVITY_DELETE,
-  payload: { activity }
+export const reservationDelete = ({ reservation}) => ({
+  type: RESERVATION_DELETE,
+  payload: { reservation }
 })

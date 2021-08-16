@@ -14,9 +14,9 @@ export default class User {
         });
     }
 
-    login(username, password) {
+    login(email, password) {
         return this.http.post(`${this.resource}/token/`, {
-            username,
+            email,
             password
         })
     }

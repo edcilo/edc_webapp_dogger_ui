@@ -9,7 +9,7 @@ export default function header({ user, logoutHandler }) {
           <Link 
             className="inline-flex items-center w-full text-sm font-semibold text-white transition-colors duration-150 cursor-pointer hover:text-blue-500" 
             to="/">
-            <p className="text-2xl text-center text-blue-500 font-semibold">TrueHome</p> 
+            <p className="text-2xl text-center text-blue-500 font-semibold">Dogger</p> 
           </Link>
         </div>
 

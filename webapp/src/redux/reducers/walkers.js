@@ -1,4 +1,4 @@
-import { CLIENTS_SET } from './../actionTypes';
+import { WALKERS_SET } from './../actionTypes';
 
 const initialState = {
     all: []
@@ -6,8 +6,8 @@ const initialState = {
 
 export default function(state = initialState, action) {
     switch (action.type) {
-        case CLIENTS_SET: {
-            const all = action.payload.clients
+        case WALKERS_SET: {
+            const all = action.payload.walkers
             return {...state, all}
         }
         default:

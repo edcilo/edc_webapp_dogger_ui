@@ -14,7 +14,7 @@ class Login extends React.Component {
         }
 
         this.state = {
-            username: 'user01',
+            username: 'user+06@edcilo.com',
             password: 'secret123.',
             error: null,
             errors: this.errors
@@ -90,7 +90,7 @@ class Login extends React.Component {
 
                     <div className="mb-6">
                         <label className="block text-grey-darker text-sm font-bold mb-2" htmlFor="username">
-                            Username
+                            Email
                         </label>
                         <input 
                             className="appearance-none border rounded w-full py-2 px-3 text-grey-darker mb-1" 

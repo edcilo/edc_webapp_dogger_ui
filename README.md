@@ -1,35 +1,8 @@
-# Prueba Técnica TrueHome
-
-Para acceder a una versión online:
-
-API: 
-https://truehomeapi.edcilo.com/admin/
-Usuario: admin
-Contraseña: secret123.
-
-Webapp:
-https://truehome.edcilo.com/
-Usuario: user01
-Contraseña: secret123.
+# Prueba Técnica Dogger
 
 ## Instalación
 
-Clonar el proyecto
-
-```
-git clone git@github.com:edcilo/truehome_test.git
-cd ./truehome_test
-```
-
-### Configurar API
-
-Crear archivo .env para la api
-
-```
-cp api/.env.example api/.env
-```
-
-Modificar la variable `APP_ENV` a `prod` para habilitar el hambiente productivo
+Clonar repositorio 
 
 ### Configurar WEBAPP
 

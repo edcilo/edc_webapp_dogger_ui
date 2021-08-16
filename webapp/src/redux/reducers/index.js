@@ -1,6 +1,6 @@
 import { combineReducers } from "redux";
 import user from './user';
-import activities from './activities';
-import clients from './clients';
+import reservations from './reservations';
+import walkers from './walkers';
 
-export default combineReducers({ user, activities, clients });
+export default combineReducers({ user, reservations, walkers });

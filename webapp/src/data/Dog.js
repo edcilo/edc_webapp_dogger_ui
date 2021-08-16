@@ -2,9 +2,9 @@ import axios from 'axios';
 import { API } from './../constants';
 
 
-export default class Client {
+export default class Dog {
     http;
-    baseUrl = API.URL;
+    baseUrl = API.URL_DOGGER;
     resource = '/api/v1';
     timeout = API.TIMEOUT;
 
@@ -19,14 +19,6 @@ export default class Client {
     }
 
     getAll() {
-        return this.http.get(`${this.resource}/clients/`);
-    }
-
-    getActivities(client_id, {type, start, end}) {
-        return this.http.get(`${this.resource}/client/${client_id}/activities/`, {
-            params: {
-                type, start, end
-            }
-        });
+        return this.http.get(`${this.resource}/dogs/`);
     }
 }

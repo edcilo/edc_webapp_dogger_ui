@@ -1,45 +1,6 @@
 version: "3.9"
 
 services:
-    truehome_db:
-        image: postgres:13.3-alpine
-        container_name: truehome_db
-        ports:
-            - 5432:5432
-        volumes: 
-            - truehomeDb:/var/lib/postgresql/data
-        networks: 
-            - truehomeNet
-        environment: 
-            - POSTGRES_PASSWORD=secret
-            - POSTGRES_USER=truehome
-            - POSTGRES_DB=seller
-    truehome_api:
-        build: ./api
-        container_name: truehome_api
-        volumes: 
-            - ./api:/code
-            - ./api/static:/code/static
-        networks: 
-            - truehomeNet
-        env_file: 
-            - ./api/.env
-    truehome_api_nginx:
-        container_name: truehome_api_nginx
-        image: nginx:alpine
-        depends_on:
-            - truehome_api
-        ports:
-            - 8000:80
-        volumes:
-            - ./docker/api_nginx/sites:/etc/nginx/conf.d
-            - ./api/static:/code/static
-        networks: 
-            - truehomeNet
-        environment:
-            - VIRTUAL_HOST=truehomeapi.edcilo.com
-            - LETSENCRYPT_HOST=truehomeapi.edcilo.com
-            - LETSENCRYPT_EMAIL=me@edcilo.com
     truehome_nginx:
         container_name: truehome_nginx
         image: nginx:alpine
@@ -57,6 +18,3 @@ services:
 networks:
     truehomeNet:
         driver: "bridge"
-volumes:
-    truehomeDb:
-    truehomeApiStatic:

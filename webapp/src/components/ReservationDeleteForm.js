@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { activityUpdate } from "./../redux/actions";
-import Activity from "./../data/Activity";
+import { reservationDelete } from "./../redux/actions";
+import Reservation from "./../data/Reservation";
 
 
-class ActivityDeleteForm extends React.Component {
+class ReservationDeleteForm extends React.Component {
     constructor(props) {
         super(props)
-        this.activity = new Activity(this.props.user.token)
+        this.reservation = new Reservation(this.props.user.token)
 
         this.state = {
             error: null,
@@ -25,8 +25,8 @@ class ActivityDeleteForm extends React.Component {
     handlerSubmit = async () => {
         this.clearErrors()
         try {
-            const response = await this.activity.delete(this.props.activity)
-            this.props.activityUpdate({ activity: response.data })
+            const response = await this.reservation.delete(this.props.reservation)
+            this.props.reservationDelete({ reservation: this.props.reservation })
             this.props.successHandler()
         } catch (error) {
             const status = error.response.status;
@@ -39,7 +39,7 @@ class ActivityDeleteForm extends React.Component {
     }
 
     render() {
-        const activity = this.props.activity;
+        const reservation = this.props.reservation;
 
         return (
             <div>
@@ -54,11 +54,9 @@ class ActivityDeleteForm extends React.Component {
                 <p className="mb-6">Are you absolutely sure?</p>
 
                 { 
-                    activity ? (
+                    reservation ? (
                         <ul className="mb-6">
-                            <li>{activity.type_human}</li>
-                            <li>{activity.client.name} {activity.client.lastname}</li>
-                            <li>{activity.schedule_at}</li>
+                            <li>{reservation.dog.name} - {reservation.date}</li>
                         </ul>
                     ) : null
                 }
@@ -82,4 +80,4 @@ const mapStateToProps = state => ({
     user: state.user
 })
 
-export default connect(mapStateToProps, { activityUpdate })(ActivityDeleteForm)
+export default connect(mapStateToProps, { reservationDelete })(ReservationDeleteForm)
