@@ -1,5 +1,5 @@
 export const API = {
-  URL: 'http://127.0.0.1:8001',
-  URL_DOGGER: 'http://127.0.0.1:8002',
+  URL: 'http://users.edcilo.com',
+  URL_DOGGER: 'http://dogger.edcilo.com',
   TIMEOUT: 3000,
 }
