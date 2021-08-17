@@ -2,18 +2,14 @@ version: "3.9"
 
 services:
     dogger_ui_nginx:
-        dogger_ui_nginx
+        container_name: dogger_ui_nginx
         image: nginx:alpine
-        ports:
-            - 8003:80
         volumes:
             - ./docker/webapp_nginx/sites:/etc/nginx/conf.d
             - ./webapp/build:/var/www/app
-        networks: 
-            - doggerNet
         environment:
-            - VIRTUAL_HOST=dogger.edcilo.com
-            - LETSENCRYPT_HOST=dogger.edcilo.com
+            - VIRTUAL_HOST=doggerui.edcilo.com
+            - LETSENCRYPT_HOST=doggerui.edcilo.com
             - LETSENCRYPT_EMAIL=me@edcilo.com
 
 networks:
