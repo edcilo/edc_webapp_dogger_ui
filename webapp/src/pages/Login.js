@@ -14,7 +14,7 @@ class Login extends React.Component {
         }
 
         this.state = {
-            username: 'user+06@edcilo.com',
+            username: 'owner@edcilo.com',
             password: 'secret123.',
             error: null,
             errors: this.errors
